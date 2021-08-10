@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gonum/plot"
-	"github.com/gonum/plot/plotter"
-	"github.com/gonum/plot/plotutil"
+	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/plotutil"
 )
 
 type options struct {
@@ -61,17 +61,14 @@ func main() {
 		})
 	}
 
-	p, err := plot.New()
-	if err != nil {
-		fmt.Printf("Failed to get a new plot %v\n", err)
-	}
+	p := plot.New()
 	p.X.Label.Text = "Requests per second"
 	p.Y.Label.Text = "Response time ms"
 	if err := plotutil.AddLinePoints(p, "Max response time (ms)", maxes, "Mean response time (ms)", means); err != nil {
 		fmt.Printf("failed to add lines. %v\n", err)
 	}
-	err = p.Save(400, 300, "plot.png")
-	if err != nil {
+
+	if err := p.Save(400, 300, "plot.png"); err != nil {
 		fmt.Printf("plot failed. %v\n", err)
 	}
 }
